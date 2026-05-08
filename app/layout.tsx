@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Ines & Silvijo | MILEC MEDIA",
-  description: "Podijelite uspomene s vjenčanja",
-    icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+  icons: {
+    icon: "/favicon.ico?v=2000",
+    shortcut: "/favicon.ico?v=2000",
+    apple: "/favicon.ico?v=2000",
   },
 };
 
