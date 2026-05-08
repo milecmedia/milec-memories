@@ -4,9 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Ines & Silvijo | MILEC MEDIA",
   description: "Podijelite uspomene s vjenčanja",
-  icons: {
-    icon: "/icon.png",
-    apple: "/apple-icon.png",
+    icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 
