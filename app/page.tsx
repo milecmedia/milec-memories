@@ -1,6 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Great_Vibes } from "next/font/google";
+
+const weddingFont = Great_Vibes({
+  subsets: ["latin", "latin-ext"],
+  weight: "400",
+});
 
 export default function Home() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -83,45 +89,46 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f8f3ee] flex items-center justify-center px-4 py-10">
-      <section className="w-full max-w-xl rounded-[2rem] bg-white/90 shadow-2xl p-6 sm:p-10 text-center border border-[#e8d8bd]">
-        <div className="text-[#c79a3b] text-4xl mb-4">♡</div>
+    <main className="min-h-[100svh] bg-[#f8f3ee] flex items-center justify-center px-4 py-4">
+      <section className="w-full max-w-lg rounded-[1.75rem] bg-white/95 shadow-2xl px-5 py-6 sm:p-8 text-center border border-[#e8d8bd]">
+        <div className="text-[#c79a3b] text-3xl mb-2">♡</div>
 
-        <p className="uppercase tracking-[0.35em] text-xs text-[#b68b3c] mb-3">
+        <p className="uppercase tracking-[0.28em] text-[10px] text-[#b68b3c] mb-2">
           Podijelite uspomene s vjenčanja
         </p>
 
-        <h1 className="text-5xl sm:text-6xl font-serif text-neutral-800 mb-6">
+        <h1
+          className={`${weddingFont.className} text-6xl sm:text-7xl text-neutral-800 mb-3 leading-none`}
+        >
           Ines & Silvijo
         </h1>
 
-        <p className="text-neutral-600 leading-relaxed mb-8">
-          Prenesite fotografije i videozapise u originalnoj kvaliteti s našeg
-          posebnog dana.
+        <p className="text-neutral-600 leading-relaxed mb-5 text-sm sm:text-base">
+          Prenesite trenutke koje smo možda propustili dok smo plesali.
           <br />
-          Bez aplikacije. Bez računa. Samo skenirajte i prenesite.
+          Sve uspomene dobrodošle — čak i one nakon treće čaše 🍷
         </p>
 
-        <div className="space-y-3 mb-5 text-left">
+        <div className="space-y-2.5 mb-4 text-left">
           <input
             value={guestName}
             onChange={(e) => setGuestName(e.target.value)}
             placeholder="Vaše ime (nije obavezno)"
-            className="w-full rounded-xl border border-neutral-200 px-4 py-4 outline-none"
+            className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3.5 text-neutral-900 placeholder:text-neutral-500 placeholder:opacity-100 outline-none"
           />
 
           <input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Poruka za mladence (nije obavezno)"
-            className="w-full rounded-xl border border-neutral-200 px-4 py-4 outline-none"
+            className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3.5 text-neutral-900 placeholder:text-neutral-500 placeholder:opacity-100 outline-none"
           />
         </div>
 
-        <div className="rounded-2xl border-2 border-dashed border-[#ddb96f] p-6 mb-5 bg-[#fffaf1]">
-          <div className="text-4xl mb-3">☁️</div>
+        <div className="rounded-2xl border-2 border-dashed border-[#ddb96f] p-4 mb-4 bg-[#fffaf1]">
+          <div className="text-3xl mb-2">☁️</div>
 
-          <p className="font-serif text-2xl text-neutral-800 mb-4">
+          <p className="font-serif text-xl text-neutral-800 mb-3">
             Odaberite fotografije i videozapise
           </p>
 
@@ -140,10 +147,10 @@ export default function Home() {
                 );
               }
             }}
-            className="block w-full rounded-xl border border-[#ddb96f] bg-white px-4 py-4 text-sm text-neutral-700"
+            className="block w-full rounded-xl border border-[#ddb96f] bg-white px-3 py-3 text-sm text-neutral-800"
           />
 
-          <p className="text-sm text-neutral-500 mt-3">
+          <p className="text-xs text-neutral-500 mt-2">
             {selectedCount > 0
               ? `${selectedCount} datoteka odabrano`
               : "Nakon odabira pritisnite gumb za prijenos."}
@@ -154,20 +161,25 @@ export default function Home() {
           type="button"
           onClick={uploadFiles}
           disabled={uploading}
-          className="w-full rounded-full bg-[#c99321] text-white py-4 text-lg font-medium disabled:opacity-50"
+          className="w-full rounded-full bg-[#c99321] text-white py-3.5 text-base font-medium disabled:opacity-50"
         >
           {uploading ? "Prijenos u tijeku..." : "Prenesi uspomene"}
         </button>
 
-        {status && <p className="mt-5 text-sm text-neutral-600">{status}</p>}
+        {status && <p className="mt-4 text-sm text-neutral-600">{status}</p>}
 
-        <p className="mt-8 text-xs text-neutral-400">
+        <p className="mt-5 text-[11px] text-neutral-400">
           Molimo vas da ne zatvarate ovu stranicu dok prijenos ne završi.
         </p>
 
-        <p className="mt-10 text-xs text-[#b68b3c]">
-          Powered by MILEC Memories
-        </p>
+        <a
+          href="https://www.instagram.com/mirkomilec"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 block text-xs text-[#b68b3c] underline underline-offset-4"
+        >
+          Powered by MILEC MEDIA
+        </a>
       </section>
     </main>
   );
