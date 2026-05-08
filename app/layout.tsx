@@ -12,9 +12,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Ines & Silvijo | Wedding Memories by MILEC MEDIA",
-  description: "Podijelite uspomene s vjenčanja Ines i Silvija.",
+export const metadata = {
+  title: "Ines & Silvijo",
+  description: "Podijelite uspomene s vjenčanja",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({
