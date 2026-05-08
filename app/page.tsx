@@ -8,6 +8,41 @@ const weddingFont = Great_Vibes({
   weight: "400",
 });
 
+function uploadWithProgress(
+  uploadUrl: string,
+  file: File,
+  fileType: string,
+  onProgress: (percent: number) => void
+) {
+  return new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("PUT", uploadUrl);
+    xhr.setRequestHeader("Content-Type", fileType);
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const percent = Math.round((event.loaded / event.total) * 100);
+        onProgress(percent);
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve();
+      } else {
+        reject(new Error(`Upload failed with status ${xhr.status}`));
+      }
+    };
+
+    xhr.onerror = () => {
+      reject(new Error("Network error during upload"));
+    };
+
+    xhr.send(file);
+  });
+}
+
 export default function Home() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -16,6 +51,7 @@ export default function Home() {
   const [selectedCount, setSelectedCount] = useState(0);
   const [status, setStatus] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   async function uploadFiles() {
     const selectedFiles = fileInputRef.current?.files;
@@ -26,13 +62,19 @@ export default function Home() {
     }
 
     setUploading(true);
+    setProgress(0);
     setStatus(`Pronađeno ${selectedFiles.length} datoteka. Pokrećem prijenos...`);
 
-    for (const file of Array.from(selectedFiles)) {
-      try {
-        setStatus(`Priprema: ${file.name}`);
+    const filesArray = Array.from(selectedFiles);
 
+    for (let index = 0; index < filesArray.length; index++) {
+      const file = filesArray[index];
+
+      try {
+        const fileNumber = index + 1;
         const fileType = file.type || "application/octet-stream";
+
+        setStatus(`Priprema ${fileNumber}/${filesArray.length}: ${file.name}`);
 
         const res = await fetch("/api/create-upload-url", {
           method: "POST",
@@ -56,21 +98,12 @@ export default function Home() {
 
         const { uploadUrl } = await res.json();
 
-        setStatus(`Prijenos: ${file.name}`);
+        setStatus(`Prijenos ${fileNumber}/${filesArray.length}: ${file.name}`);
+        setProgress(0);
 
-        const uploadRes = await fetch(uploadUrl, {
-          method: "PUT",
-          headers: {
-            "Content-Type": fileType,
-          },
-          body: file,
+        await uploadWithProgress(uploadUrl, file, fileType, (percent) => {
+          setProgress(percent);
         });
-
-        if (!uploadRes.ok) {
-          setStatus(`Prijenos nije uspio: ${file.name}`);
-          setUploading(false);
-          return;
-        }
       } catch (error) {
         console.error(error);
         setStatus(`Prijenos nije uspio: ${file.name}`);
@@ -79,6 +112,7 @@ export default function Home() {
       }
     }
 
+    setProgress(100);
     setStatus("Hvala ❤️ Vaše uspomene su uspješno prenesene.");
     setUploading(false);
     setSelectedCount(0);
@@ -106,7 +140,7 @@ export default function Home() {
         <p className="text-neutral-600 leading-relaxed mb-5 text-sm sm:text-base">
           Prenesite trenutke koje smo možda propustili dok smo plesali.
           <br />
-          Sve uspomene dobrodošle - čak i one nakon treće čaše.🍷
+          Sve uspomene dobrodošle - čak i one nakon treće čaše 🍷
         </p>
 
         <div className="space-y-2.5 mb-4 text-left">
@@ -140,6 +174,7 @@ export default function Home() {
             onChange={(e) => {
               const count = e.target.files?.length || 0;
               setSelectedCount(count);
+              setProgress(0);
 
               if (count > 0) {
                 setStatus(
@@ -165,6 +200,21 @@ export default function Home() {
         >
           {uploading ? "Prijenos u tijeku..." : "Prenesi uspomene"}
         </button>
+
+        {uploading && (
+          <div className="mt-4">
+            <div className="h-3 w-full rounded-full bg-[#eadcc3] overflow-hidden">
+              <div
+                className="h-full rounded-full bg-[#c99321] transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+
+            <p className="mt-2 text-sm text-neutral-600">
+              {progress}% preneseno
+            </p>
+          </div>
+        )}
 
         {status && <p className="mt-4 text-sm text-neutral-600">{status}</p>}
 
