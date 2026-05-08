@@ -98,7 +98,7 @@ export default function Home() {
         </p>
 
         <h1
-          className={`${weddingFont.className} text-6xl sm:text-7xl text-neutral-800 mb-3 leading-none`}
+          className={`${weddingFont.className} text-6xl sm:text-7xl text-neutral-800 mb-3 mt-3 leading-none`}
         >
           Ines & Silvijo
         </h1>
@@ -106,7 +106,7 @@ export default function Home() {
         <p className="text-neutral-600 leading-relaxed mb-5 text-sm sm:text-base">
           Prenesite trenutke koje smo možda propustili dok smo plesali.
           <br />
-          Sve uspomene dobrodošle — čak i one nakon treće čaše 🍷
+          Sve uspomene dobrodošle - čak i one nakon treće čaše.🍷
         </p>
 
         <div className="space-y-2.5 mb-4 text-left">
