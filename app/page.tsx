@@ -127,12 +127,12 @@ export default function Home() {
       <section className="w-full max-w-lg rounded-[1.75rem] bg-white/95 shadow-2xl px-5 py-6 sm:p-8 text-center border border-[#e8d8bd]">
         <div className="text-[#c79a3b] text-3xl mb-2">♡</div>
 
-        <p className="uppercase tracking-[0.28em] text-[10px] text-[#b68b3c] mb-2">
+        <p className="uppercase tracking-[0.28em] text-[10px] text-[#b68b3c] mb-5">
           Podijelite uspomene s vjenčanja
         </p>
 
         <h1
-          className={`${weddingFont.className} text-6xl sm:text-7xl text-neutral-800 mb-3 mt-3 leading-none`}
+          className={`${weddingFont.className} text-6xl sm:text-7xl text-neutral-800 mb-4 leading-none`}
         >
           Ines & Silvijo
         </h1>
